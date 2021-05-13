@@ -31,7 +31,7 @@
 export default {
   filters: {
     price(str) {
-      return str === 0 ? 0 : str.join('')
+      return str === 0 ? '' : str.join('')
     },
   },
   data() {
