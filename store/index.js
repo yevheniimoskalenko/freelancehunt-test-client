@@ -1,6 +1,7 @@
-export const state = () => ({ error: null, posts: null })
+export const state = () => ({ error: null, posts: null, post: null })
 export const getters = {
   getPosts: (state) => state.posts,
+  getPost: (state) => state.post,
 }
 export const mutations = {
   setError(state, payload) {
@@ -8,6 +9,9 @@ export const mutations = {
   },
   setPosts(state, payload) {
     state.posts = payload
+  },
+  setPost(state, payload) {
+    state.post = payload
   },
 }
 export const actions = {
@@ -18,6 +22,14 @@ export const actions = {
     } catch (e) {
       commit('setError', e)
       throw e
+    }
+  },
+  async fetchId({ commit, getters }, id) {
+    if (getters.getPosts === null) {
+      const post = await this.$axios.$get(`/api/fetchId/${id}`)
+      commit('setPost', post)
+    } else {
+      commit('setPost', getters.getPosts[id])
     }
   },
 }
